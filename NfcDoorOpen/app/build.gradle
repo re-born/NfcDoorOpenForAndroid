@@ -23,3 +23,39 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.2'
 }
+
+
+// タスク定義で、他のタスクに依存させることができ、ここではinstallDebugに依存している
+task startDebug(dependsOn: 'installDebug') << {
+    // Variantというものがあり、これはビルドの種類ごとに存在している
+    android.applicationVariants.all { variant ->
+        // インストールを伴わないvariantは無視する
+        if (!variant.install) {
+            return
+        }
+        def aaptCommandPath = System.env.ANDROID_HOME + "/build-tools/$project.android.buildToolsRevision/aapt"
+        def adbCommandPath = System.env.ANDROID_HOME + "/platform-tools/adb"
+
+        // ビルドが終わったapkファイルのパスを調べる (ここの記述はPluginのバージョンアップによって変わる可能性が大きいです)
+        def apkPath = variant.outputs[0].zipAlign.outputFile.path
+
+        // aaptコマンドを実行して、apkの中身を探る
+        def aaptResult = "$aaptCommandPath dump badging $apkPath".execute().text
+
+        def packageLine = aaptResult.readLines().find { it.startsWith "package:" }
+        def packageName
+        packageLine.eachMatch(".*name='(.*?)'.*") { allText, matchPackageName ->
+            packageName = matchPackageName
+        }
+        def launcableActivityLine = aaptResult.readLines().find {
+            it.startsWith "launchable-activity:"
+        }
+        def activityPackageName
+        launcableActivityLine.eachMatch(".*name='(.*?)'.*") { allText, matchActivityName ->
+            activityPackageName = matchActivityName
+        }
+
+        // アプリのパッケージ名と起動Activityを指定してアプリの起動
+        "$adbCommandPath shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER $packageName/$activityPackageName".execute()
+    }
+}
