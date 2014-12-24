@@ -4,5 +4,11 @@
     <string name="app_name">NfcDoorOpen</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="register">登録</string>
+    <string name="wait_message">カードをかざしてみてください</string>
+    <string name="title_activity_register">RegisterActivity</string>
+
+    <string name="server_request_title">通信中</string>
+    <string name="server_request_message">サーバにリクエストを送っています</string>
 
 </resources>
