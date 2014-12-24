@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -24,16 +25,16 @@ public class NfcReadActivity extends Activity implements RequestTask.RequestCall
     private static final String ID_REQUEST_API = Config.SERVER_URL + "/api/v0/user";
     private static final String REQUEST_ID_PARAM_IDM = "idm";
 
-    protected String mIdm = null;
+    private String mIdm = "";
 
     @Override
     public void doCallBack(JSONObject result) {
         Log.d(Config.DEBUG_TAG, result.toString());
+//        mRegButton.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onFailed() {
-
     }
 
     @Override
@@ -43,6 +44,7 @@ public class NfcReadActivity extends Activity implements RequestTask.RequestCall
 
         mIdLabel = (TextView) findViewById(R.id.nfc_id_label);
         mRegButton = (Button) findViewById(R.id.register_button);
+//        mRegButton.setVisibility(View.GONE);
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -55,6 +57,8 @@ public class NfcReadActivity extends Activity implements RequestTask.RequestCall
             // IDmを表示させる
             String idm = getIdm(getIntent());
             if (idm != null) {
+                Log.d(Config.DEBUG_TAG, idm);
+                mIdm = idm;
                 mIdLabel.setText(idm);
                 requestIdm();
             }
@@ -64,7 +68,8 @@ public class NfcReadActivity extends Activity implements RequestTask.RequestCall
     private void requestIdm() {
         try {
             JSONObject vals = new JSONObject();
-            vals.put(REQUEST_ID_PARAM_IDM, "5678cc8c9scd9cd8scd");
+//            vals.put(REQUEST_ID_PARAM_IDM, "5678cc8c9scd9cd8scd");
+            vals.put(REQUEST_ID_PARAM_IDM, mIdm);
             RequestTask task = new RequestTask(this, ID_REQUEST_API, vals, this, RequestTask.REQUEST_MODE_GET);
             task.execute();
         } catch (JSONException e) {
