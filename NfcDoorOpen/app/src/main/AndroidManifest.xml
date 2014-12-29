@@ -24,7 +24,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NfcReadActivity">
+
+        <activity android:name=".NfcReadActivity" android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
@@ -58,9 +59,31 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/title_activity_register"></activity>
+            android:label="@string/title_activity_register"
+            android:launchMode="singleInstance" />
+
+
+        <activity
+            android:launchMode="singleInstance"
+            android:name=".SerialConnectActivity"
+            android:label="@string/title_activity_serial_connect">
+
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+                android:resource="@xml/device_filter" />
+
+        </activity>
+
+        <service android:name=".mqtt.PushService" />
+
     </application>
 
 </manifest>

@@ -7,8 +7,12 @@
     <string name="register">登録</string>
     <string name="wait_message">カードをかざしてみてください</string>
     <string name="title_activity_register">RegisterActivity</string>
-
     <string name="server_request_title">通信中</string>
     <string name="server_request_message">サーバにリクエストを送っています</string>
+    <string name="title_activity_serial_connect">SerialConnectActivity</string>
+    <string name="connect_start">通信開始</string>
+
+    <string name="nfc_mode">NFC待ち受けモード</string>
+    <string name="serial_mode">Arduino接続モード</string>
 
 </resources>

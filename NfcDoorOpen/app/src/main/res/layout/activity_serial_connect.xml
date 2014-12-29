@@ -3,19 +3,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:gravity="center"
-    android:padding="10dp"
+    android:padding="30dp"
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/nfc_button"
-        android:text="@string/nfc_mode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-
-    <Button
-        android:id="@+id/serial_button"
-        android:text="@string/serial_mode"
+        android:id="@+id/start_button"
+        android:text="@string/connect_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
