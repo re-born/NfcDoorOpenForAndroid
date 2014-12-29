@@ -1,27 +1,16 @@
-package door.nfc.sakailab.com.nfcdooropen;
+package door.nfc.sakailab.com.nfcdooropen.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.hardware.usb.UsbManager;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-
-import com.hoho.android.usbserial.driver.UsbSerialDriver;
-import com.hoho.android.usbserial.driver.UsbSerialProber;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
+import door.nfc.sakailab.com.nfcdooropen.R;
 import door.nfc.sakailab.com.nfcdooropen.config.Config;
 import door.nfc.sakailab.com.nfcdooropen.mqtt.PushService;
 import door.nfc.sakailab.com.nfcdooropen.util.RequestTask;
@@ -35,13 +24,11 @@ public class NfcReadActivity extends Activity implements RequestTask.RequestCall
 
     private static final String ID_REQUEST_API = Config.SERVER_URL + "/api/v0/user";
     private static final String REQUEST_ID_PARAM_IDM = "idm";
-    private String mIdm = "";
 
     @Override
     public void doCallBack(JSONObject result) {
         Log.d(Config.DEBUG_TAG, result.toString());
         PushService.actionPublish(this);
-//        PushService.actionStop(this);
     }
 
     @Override
@@ -80,12 +67,10 @@ public class NfcReadActivity extends Activity implements RequestTask.RequestCall
             return;
         }
         Log.d(Config.DEBUG_TAG, idm);
-        mIdm = idm;
         mIdLabel.setText(idm);
         try {
             JSONObject vals = new JSONObject();
-//            vals.put(REQUEST_ID_PARAM_IDM, "5678cc8c9scd9cd8scd");
-            vals.put(REQUEST_ID_PARAM_IDM, mIdm);
+            vals.put(REQUEST_ID_PARAM_IDM, idm);
             RequestTask task = new RequestTask(this, ID_REQUEST_API, vals, this, RequestTask.REQUEST_MODE_GET);
             task.execute();
         } catch (JSONException e) {

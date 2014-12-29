@@ -1,12 +1,8 @@
 package door.nfc.sakailab.com.nfcdooropen.mqtt;
 
 import android.content.Context;
-import android.content.Intent;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import door.nfc.sakailab.com.nfcdooropen.SerialConnectActivity;
+import door.nfc.sakailab.com.nfcdooropen.ui.SerialConnectActivity;
 
 /**
  * Created by taisho6339 on 2014/08/28.

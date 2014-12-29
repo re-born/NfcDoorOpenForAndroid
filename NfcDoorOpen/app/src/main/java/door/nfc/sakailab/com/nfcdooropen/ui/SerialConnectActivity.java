@@ -1,4 +1,4 @@
-package door.nfc.sakailab.com.nfcdooropen;
+package door.nfc.sakailab.com.nfcdooropen.ui;
 
 import android.content.Context;
 import android.hardware.usb.UsbManager;
@@ -15,6 +15,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import door.nfc.sakailab.com.nfcdooropen.R;
 import door.nfc.sakailab.com.nfcdooropen.mqtt.PushService;
 
 public class SerialConnectActivity extends ActionBarActivity {
