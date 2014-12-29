@@ -47,11 +47,8 @@ public class SerialConnectActivity extends ActionBarActivity {
                 sUsb.open();
                 sUsb.setBaudRate(9600);
                 sUsb.write(command.getBytes("UTF-8"), 1);
-                Thread.sleep(1500);
                 sUsb.close();
             } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }

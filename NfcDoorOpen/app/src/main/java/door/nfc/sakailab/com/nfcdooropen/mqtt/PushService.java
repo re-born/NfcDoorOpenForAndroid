@@ -130,16 +130,7 @@ public class PushService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(TAG, "onStartCommand");
-
-        ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        List<ActivityManager.RunningServiceInfo> serviceInfos = am.getRunningServices(Integer.MAX_VALUE);
-        int serviceNum = serviceInfos.size();
-        int count = 0;
-        for (int i = 0; i < serviceNum; i++) {
-            if (serviceInfos.get(i).service.getClassName().equals(this.getClass().getName())) {
-                count++;
-            }
-        }
+        Log.d(TAG, intent.getAction());
 
         if (intent == null) {
             return START_STICKY;
@@ -295,6 +286,8 @@ public class PushService extends Service {
             // Send a keep alive, if there is a connection.
             if (mStarted && mConnection != null) {
                 mConnection.publishToTopic(mTopicName, "NFC_OK");
+            } else {
+                Log.d(TAG, "fail to publish");
             }
         } catch (MqttException e) {
             log("MqttException: " + (e.getMessage() != null ? e.getMessage() : "NULL"), e);
@@ -515,6 +508,7 @@ public class PushService extends Service {
             } else {
                 mqttClient.publish(topicName, message.getBytes(), MQTT_QUALITY_OF_SERVICE,
                         MQTT_RETAINED_PUBLISH);
+                log("publish success");
             }
         }
 
@@ -537,6 +531,7 @@ public class PushService extends Service {
          */
         public void publishArrived(String topicName, byte[] payload, int qos, boolean retained) {
             // Show a notification
+            log("Sending publish");
             String s = new String(payload);
             MessageController.onCallBack(s, getApplicationContext());
         }

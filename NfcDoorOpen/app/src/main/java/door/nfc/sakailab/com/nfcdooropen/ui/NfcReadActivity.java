@@ -40,7 +40,7 @@ public class NfcReadActivity extends Activity implements RequestTask.RequestCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nfcread_activity_layout);
 
-        PushService.actionStart(this, "nfc/sakailab");
+        PushService.actionStart(getApplicationContext(), "nfc/sakailab");
 
         mIdLabel = (TextView) findViewById(R.id.nfc_id_label);
 
@@ -55,9 +55,15 @@ public class NfcReadActivity extends Activity implements RequestTask.RequestCall
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        requestIdm();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        PushService.actionStop(this);
+        PushService.actionStop(getApplicationContext());
     }
 
 
@@ -76,12 +82,6 @@ public class NfcReadActivity extends Activity implements RequestTask.RequestCall
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        requestIdm();
     }
 
     protected String getIdm(Intent intent) {
